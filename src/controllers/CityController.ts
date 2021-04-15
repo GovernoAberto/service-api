@@ -18,14 +18,12 @@ class CityController
   }
 
   async cityInfo(req: Request, res: Response) {
-    const stateRepository = new StateRepository();
     const cityRepository = new CityRepository();
 
-    const state = await stateRepository.findByAlias(req.params.state);
-    const city = await cityRepository.findByAlias(state, req.params.city);
+    const city = await cityRepository.findByAlias(req.params.state, req.params.city);
         
     res.send({
-      state: state,
+      state: city.state,
       city: city
     });
   }

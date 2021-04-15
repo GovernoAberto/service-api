@@ -50,46 +50,38 @@ class DatasetController
       
       if(!city) res.status(500).send("Erro");
 
-      let result;
+      const result = await visualization.display(city);
 
-      if(visualization.scope.columnType == 'ibge') {
-        result = await visualization.display(String(city.ibgeCode));
-      } else {
-        result = await visualization.display(String(city.siafiCode));
-      }
       res.send(result);
     });
 
   }
 
 
-  visualizations(req: Request, res: Response) {
+  async visualizations(req: Request, res: Response) {
+    const city = await new CityRepository().findByAlias(String(req.query.state), String(req.query.city));
+
     const factory = new ApiFactory();
     factory.load().then(async () => {
       const repository = new VisualizationRepository(factory);
 
       const charts = await repository.findByType(VisualizationType.CHART);
+      const chartData = await Promise.all(charts.map(chart => chart.display(city)));
 
-      res.send(charts.map(chart => { 
-        return { alias: chart.alias, title: chart.title, category: chart.category };
-      }));
+      const response = [];
+      for (let i = 0; i < charts.length; i++) {
+        response.push({ 
+          alias: charts[i].alias, 
+          title: charts[i].title, 
+          category: charts[i].category,
+          data: chartData[i]
+        });
+      }
+      
+      res.send(response);
     }).catch(error => {
       console.log(error);
     });
-
-    // const visualizations = [
-    //   { id: 1, title: "Evolução da frota de veículos 1", category: "Saúde" },
-    //   // { id: 2, title: "Evolução da frota de veículos 2", category: "Educação" },
-    //   // { id: 3, title: "Evolução da frota de veículos 3", category: "Segurança" },
-    //   // { id: 4, title: "Evolução da frota de veículos 4", category: "Trânsito" },
-    //   // { id: 5, title: "Evolução da frota de veículos 5", category: "Trânsito" },
-    //   // { id: 6, title: "Evolução da frota de veículos 6", category: "Trânsito" },
-    //   // { id: 7, title: "Evolução da frota de veículos 7", category: "Trânsito" },
-    //   // { id: 8, title: "Evolução da frota de veículos 8", category: "Trânsito" },
-    //   // { id: 9, title: "Evolução da frota de veículos 9", category: "Trânsito" },
-    // ];
-
-    // res.send(visualizations);
   }
 }
 

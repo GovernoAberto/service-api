@@ -1,5 +1,6 @@
 import { DatasetQuery } from "./query/DatasetQuery";
 import { VisualizationParserFactory } from "./parsers/VisualizationParserFactory";
+import { City } from "./City";
 
 export enum VisualizationType {
     TABLE = 'table',
@@ -21,7 +22,9 @@ export class Visualization {
         
   }
 
-  async display(scopeValue:string) : Promise<unknown> {
+  async display(city: City) : Promise<unknown> {
+    const scopeValue = this.scope.columnType == "ibge" ? String(city.ibgeCode) : String(city.siafiCode);
+
     const parser = VisualizationParserFactory.build(this);
 
     this.query.addFilter(this.scope.column, scopeValue);

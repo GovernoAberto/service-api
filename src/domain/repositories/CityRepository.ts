@@ -22,8 +22,11 @@ export class CityRepository{
     return cities;
   }
 
-  async findByAlias(state: State, alias:string) : Promise<City> {
-    const city = await this.mongoDB.findOne({ "alias": alias });
+  async findByAlias(stateAlias: string, cityAlias:string) : Promise<City> {
+    const city = await this.mongoDB.findOne({ 
+      "alias": cityAlias,
+      "state.alias": stateAlias
+    });
 
     return city;
   }
