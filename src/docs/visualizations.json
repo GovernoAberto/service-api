@@ -1,0 +1,346 @@
+[
+    {
+        "alias": "empresas-por-porte",
+        "title": "Total de empresas ativas por porte",
+        "category": "Economia",
+        "dataset": "EstatisticasEmpresas",
+        "type": "chart",
+        "scope": {
+            "type": "city",
+            "column": "codigoMunicipio", 
+            "columnType": "siafi"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "measures": [ "${1}.total" ],
+                "dimensions": [ "${1}.descricaoPorte" ],
+                "filters": [{
+                    "member": "${1}.situacaoCadastral",
+                    "operator": "equals",
+                    "values": ["2"]
+                }]
+            }
+        },
+        "parser": {
+            "type": "pie-chart",
+            "data": {
+
+            }
+        }
+    },
+
+    {
+        "alias": "empresas-criadas-desde-2010",
+        "title": "CNPJs criados por ano desde 2010",
+        "category": "Economia",
+        "dataset": "EstatisticasEmpresas",
+        "type": "chart",
+        "scope": {
+            "type": "city",
+            "column": "codigoMunicipio", 
+            "columnType": "siafi"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "measures": [ "${1}.total" ],
+                "dimensions": [ "${1}.anoInicioAtividade" ],
+                "filters": [{
+                    "member": "${1}.anoInicioAtividade",
+                    "operator": "gte",
+                    "values": ["2010"]
+                }],
+                "order": [
+                    ["${1}.anoInicioAtividade", "asc"]
+                ]
+            }
+        },
+        "parser": {
+            "type": "line-chart",
+            "data": {
+
+            }
+        }
+    },
+
+    {
+        "alias": "cnpjs-por-situacao",
+        "title": "CNPJs por situação cadastral",
+        "category": "Economia",
+        "dataset": "EstatisticasEmpresas",
+        "type": "chart",
+        "scope": {
+            "type": "city",
+            "column": "codigoMunicipio", 
+            "columnType": "siafi"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "measures": [ "${1}.total" ],
+                "dimensions": [ "${1}.descricaoSituacao" ]
+            }
+        },
+        "parser": {
+            "type": "pie-chart",
+            "data": {
+
+            }
+        }
+    },
+
+    {
+        "alias": "empresas-por-mei",
+        "title": "Total de empresas por opção pelo MEI",
+        "category": "Economia",
+        "dataset": "EstatisticasEmpresas",
+        "type": "chart",
+        "scope": {
+            "type": "city",
+            "column": "codigoMunicipio", 
+            "columnType": "siafi"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "measures": [ "${1}.total" ],
+                "dimensions": [ "${1}.opcaoPeloMei" ]
+            }
+        },
+        "parser": {
+            "type": "pie-chart",
+            "data": {
+
+            }
+        }
+    },
+
+    {
+        "alias": "meis-criados-desde-2015",
+        "title": "MEIs criados por ano desde 2015",
+        "category": "Economia",
+        "dataset": "EstatisticasEmpresas",
+        "type": "chart",
+        "scope": {
+            "type": "city",
+            "column": "codigoMunicipio", 
+            "columnType": "siafi"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "measures": [ "${1}.total" ],
+                "dimensions": [ "${1}.anoInicioAtividade" ],
+                "filters": [{
+                    "member": "${1}.anoInicioAtividade",
+                    "operator": "gte",
+                    "values": ["2015"]
+                }, {
+                    "member": "${1}.opcaoPeloMei",
+                    "operator": "equals",
+                    "values": ["true"]
+                }],
+                "order": [
+                    ["${1}.anoInicioAtividade", "asc"]
+                ]
+            }
+        },
+        "parser": {
+            "type": "line-chart",
+            "data": {
+
+            }
+        }
+    },
+
+    {
+        "alias": "nao-meis-criados-desde-2015",
+        "title": "Não MEIs criados por ano desde 2015",
+        "category": "Economia",
+        "dataset": "EstatisticasEmpresas",
+        "type": "chart",
+        "scope": {
+            "type": "city",
+            "column": "codigoMunicipio", 
+            "columnType": "siafi"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "measures": [ "${1}.total" ],
+                "dimensions": [ "${1}.anoInicioAtividade" ],
+                "filters": [{
+                    "member": "${1}.anoInicioAtividade",
+                    "operator": "gte",
+                    "values": ["2015"]
+                }, {
+                    "member": "${1}.opcaoPeloMei",
+                    "operator": "equals",
+                    "values": ["false"]
+                }],
+                "order": [
+                    ["${1}.anoInicioAtividade", "asc"]
+                ]
+            }
+        },
+        "parser": {
+            "type": "line-chart",
+            "data": {
+
+            }
+        }
+    },
+
+    {
+        "alias": "emendas-parlamentares",
+        "title": "Emendas parlamentares enviadas diretamente ao município",
+        "category": "Economia",
+        "dataset": "Emendas",
+        "type": "table",
+        "scope": {
+            "type": "city",
+            "column": "codigoIbge", 
+            "columnType": "ibge"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "dimensions": [
+                    "${1}.ano",
+                    "${1}.nomeAutor",
+                    "${1}.nomeFuncao",
+                    "${1}.valorEmpenhado"
+                ],
+                "order": [
+                    ["${1}.ano", "desc"]
+                ]
+            }
+        },
+        "parser": {
+            "type": "table",
+            "data": {
+
+            }
+        }
+    },
+
+    {
+        "alias": "total-empresas",
+        "title": "Total de empresas",
+        "category": "Economia",
+        "dataset": "EstatisticasEmpresas",
+        "type": "number",
+        "scope": {
+            "type": "city",
+            "column": "codigoMunicipio",
+            "columnType": "siafi"
+        },
+        "query": {
+            "type": "number",
+            "data": {
+                "measures": [ "${1}.total" ]
+            }
+        },
+        "parser": {
+            "type": "number",
+            "data": {
+
+            }
+        }
+    },
+    {
+        "alias": "populacao",
+        "title": "População (2020)",
+        "category": "Básico",
+        "dataset": "Populacao",
+        "type": "number",
+        "scope": {
+            "type": "city",
+            "column": "codigoIbge", 
+            "columnType": "ibge"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "dimensions": [ "${1}.populacao" ],
+                "filters": [{
+                    "member": "${1}.ano",
+                    "operator": "equals",
+                    "values": ["2020"]
+                }]
+            }
+        },
+        "parser": {
+            "type": "number",
+            "data": {}
+        }
+    },
+    {
+        "alias": "gentilico",
+        "title": "Gentílico",
+        "category": "Básico",
+        "dataset": "Gentilicos",
+        "type": "number",
+        "scope": {
+            "type": "city",
+            "column": "codigoIbge", 
+            "columnType": "ibge"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "dimensions": [ "${1}.nome" ]
+            }
+        },
+        "parser": {
+            "type": "number",
+            "data": {}
+        }
+    },
+    {
+        "alias": "prefeito",
+        "title": "Prefeito(a) (2021)",
+        "category": "Básico",
+        "dataset": "Prefeitos",
+        "type": "number",
+        "scope": {
+            "type": "city",
+            "column": "codigoIbge", 
+            "columnType": "ibge"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "dimensions": [ "${1}.nome" ]
+            }
+        },
+        "parser": {
+            "type": "number",
+            "data": {}
+        }
+    },
+    {
+        "alias": "area-territorial",
+        "title": "Área Territorial (2020)",
+        "category": "Básico",
+        "dataset": "AreasMunicipios",
+        "type": "number",
+        "scope": {
+            "type": "city",
+            "column": "codigoIbge", 
+            "columnType": "ibge"
+        },
+        "query": {
+            "type": "cubejs",
+            "data": {
+                "dimensions": [ "${1}.area" ]
+            }
+        },
+        "parser": {
+            "type": "number",
+            "format": "km2",
+            "data": {}
+        }
+    }
+]
