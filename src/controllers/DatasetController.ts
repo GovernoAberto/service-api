@@ -9,13 +9,13 @@ class DatasetController
 
   categories(req: Request, res: Response) {
     res.send([
-      { label: 'Todas categorias', btn_class: 'btn-light', icon: null },
-      { label: 'Contas Públicas', btn_class: 'btn-secondary', icon: 'building' },
-      { label: 'Saúde', btn_class: 'btn-primary', icon: 'ambulance' },
-      { label: 'Economia', btn_class: 'btn-warning', icon: 'dollar-sign' },
-      { label: 'Educação', btn_class: 'btn-success', icon: 'book' },
-      { label: 'Segurança', btn_class: 'btn-dark', icon: 'user-shield' },
-      { label: 'Transporte', btn_class: 'btn-danger', icon: 'bus' }
+      { label: 'Todas categorias', btn_class: 'btn-light', btn_alt_class: 'btn-outline-light', icon: null },
+      { label: 'Contas Públicas', btn_class: 'btn-secondary', btn_alt_class: 'btn-outline-secondary', icon: 'building' },
+      { label: 'Saúde', btn_class: 'btn-primary', btn_alt_class: 'btn-outline-primary', icon: 'ambulance' },
+      { label: 'Economia', btn_class: 'btn-warning', btn_alt_class: 'btn-outline-warning', icon: 'dollar-sign' },
+      { label: 'Educação', btn_class: 'btn-success', btn_alt_class: 'btn-outline-success', icon: 'book' },
+      { label: 'Segurança', btn_class: 'btn-dark', btn_alt_class: 'btn-outline-dark', icon: 'user-shield' },
+      { label: 'Transporte', btn_class: 'btn-danger', btn_alt_class: 'btn-outline-danger', icon: 'bus' }
     ]);
   }
     
