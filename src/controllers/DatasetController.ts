@@ -52,9 +52,13 @@ class DatasetController
       const result = await visualization.display(city);
 
       res.send({
-        alias: visualization.alias, 
+        alias: visualization.alias,
         title: visualization.title, 
         category: visualization.category,
+        dataset: {
+          name: visualization.getDataset().name,
+          title: visualization.getDataset().title,
+        },
         data: result
       });
     });

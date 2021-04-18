@@ -28,4 +28,8 @@ export class CubeJsQuery implements DatasetQuery {
       values: [value]
     });
   }
+
+  getDataset() {
+    return this.dataset;
+  }
 }

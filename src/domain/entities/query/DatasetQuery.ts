@@ -6,4 +6,5 @@ export interface DatasetQuery {
   process();
   execute() : Promise<unknown>;
   addFilter(field: string, value: string);
+  getDataset() : Dataset;
 }

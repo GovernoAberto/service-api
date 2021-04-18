@@ -43,4 +43,8 @@ export class Visualization {
 
     return parser.parse(result);
   }
+
+  getDataset() {
+    return this.query.getDataset();
+  }
 }
