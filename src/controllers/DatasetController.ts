@@ -29,8 +29,13 @@ class DatasetController
     factory.load().then(async () => {
       const dataset = factory.getDataset(req.params.name);
 
-      const query = await factory.selectAll(dataset);
+      const query = await factory.selectAll(dataset, Number(req.query.page));
       query.addFilter("codigoMunicipio", String(city.siafiCode));
+      
+      if(req.query.page) {
+        const perPage = req.query.perPage ? Number(req.query.perPage) : 20;
+        query.applyPagination(Number(req.query.page), perPage);
+      }
       
       const result = await query.execute();
       const parser = new TableParser({});

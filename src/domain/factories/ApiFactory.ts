@@ -1,6 +1,7 @@
 import { Dataset } from "@entities/Dataset";
 import { CubeJsQuery } from "@entities/query/CubeJsQuery";
 import { DatasetQuery } from "@entities/query/DatasetQuery";
+import { Query } from "mongoose";
 import { CubeJsApi } from "./CubeJsApi";
 import { DatasetApi } from "./DatasetApi";
 
@@ -43,7 +44,7 @@ export class ApiFactory{
     return await this.apis[0].executeQuery(query);
   }
 
-  async selectAll(dataset: Dataset) : Promise<DatasetQuery> {
+  async selectAll(dataset: Dataset, page: number, perPage = 20) : Promise<DatasetQuery> {
     const dimensions = dataset.metadata.cube.dimensions.map(dimension => dimension.name);
 
     const query = this.newQuery(dataset, { dimensions: dimensions });

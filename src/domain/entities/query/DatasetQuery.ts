@@ -7,4 +7,5 @@ export interface DatasetQuery {
   execute() : Promise<unknown>;
   addFilter(field: string, value: string);
   getDataset() : Dataset;
+  applyPagination(page: number, perPage?: number) : DatasetQuery;
 }

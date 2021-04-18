@@ -5,9 +5,9 @@ import { DatasetQuery } from "./DatasetQuery";
 
 export class CubeJsQuery implements DatasetQuery {
   
-  private data:unknown;
+  private data:any;
 
-  constructor(readonly dataset: Dataset, readonly query: Query, private factory: ApiFactory) {
+  constructor(readonly dataset: Dataset, public query: Query, private factory: ApiFactory) {
 
   }
 
@@ -27,6 +27,17 @@ export class CubeJsQuery implements DatasetQuery {
       operator: 'equals',
       values: [value]
     });
+  }
+
+  applyPagination(page: number, perPage = 20) : CubeJsQuery {
+    if(isNaN(page) || isNaN(perPage)) {
+      throw new Error("Not a number");
+    }
+
+    this.query.limit = perPage,
+    this.query.offset = perPage * (page - 1);
+
+    return this;
   }
 
   getDataset() {

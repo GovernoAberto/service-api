@@ -11,6 +11,8 @@ export class TableParser extends VisualizationParser {
   parse(data) : unknown{
     const tableColumns = data.tableColumns();
     const tableData = data.tablePivot();
+    
+    if(tableData.length == 0) return [];
 
     const table = tableColumns.map(column => {
       return {
