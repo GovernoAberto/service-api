@@ -51,11 +51,15 @@ class DatasetController
 
       const result = await visualization.display(city);
 
-      res.send(result);
+      res.send({
+        alias: visualization.alias, 
+        title: visualization.title, 
+        category: visualization.category,
+        data: result
+      });
     });
 
   }
-
 
   async visualizations(req: Request, res: Response) {
     const city = await new CityRepository().findByAlias(String(req.query.state), String(req.query.city));
