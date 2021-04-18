@@ -1,3 +1,4 @@
+import { ResultSet } from "@cubejs-client/core";
 import { VisualizationParser } from "./VisualizationParser";
 
 export class TableParser extends VisualizationParser {
@@ -7,11 +8,25 @@ export class TableParser extends VisualizationParser {
     super();
   }
 
-  parse(data: any) : unknown{
-    const table = data.tablePivot();
+  parse(data) : unknown{
+    const tableColumns = data.tableColumns();
+    const tableData = data.tablePivot();
 
-    return table.map((key) => {
-      return key;
+    const table = tableColumns.map(column => {
+      return {
+        title: column.shortTitle,
+        type: column.type,
+        data: [],
+        key: column.key,
+      };
     });
+
+    tableData.forEach((row) => {
+      table.forEach(column => {
+        column.data.push(row[column.key]);
+      });
+    });
+    
+    return table;
   }
 }

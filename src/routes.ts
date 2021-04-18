@@ -16,6 +16,7 @@ router.get('/city-info/:state/:city', cityController.cityInfo);
 router.get('/datasets', datasetController.datasets);
 router.get('/categories', datasetController.categories);
 router.get('/visualization/:alias', datasetController.visualization);
+router.get('/visualization/:alias/table', datasetController.tableByVisualization);
 router.get('/visualizations', datasetController.visualizations);
 
 export { router };

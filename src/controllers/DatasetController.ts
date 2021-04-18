@@ -61,6 +61,32 @@ class DatasetController
 
   }
 
+  tableByVisualization(req: Request, res: Response) {
+    const alias = req.params.alias;
+
+    const factory = new ApiFactory();
+
+    factory.load().then(async () => {
+      const repository = new VisualizationRepository(factory);
+      const visualization = await repository.findByAlias(alias);
+
+      const cityRepository = new CityRepository();
+      const city = await cityRepository.findById(Number(req.query.city));
+      
+      if(!city) res.status(500).send("Erro");
+
+      const result = await visualization.generateTable(city);
+
+      res.send({
+        alias: visualization.alias, 
+        title: visualization.title, 
+        category: visualization.category,
+        data: result
+      });
+    });
+
+  }
+
   async visualizations(req: Request, res: Response) {
     const city = await new CityRepository().findByAlias(String(req.query.state), String(req.query.city));
 

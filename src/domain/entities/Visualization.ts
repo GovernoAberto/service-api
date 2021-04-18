@@ -1,6 +1,7 @@
 import { DatasetQuery } from "./query/DatasetQuery";
 import { VisualizationParserFactory } from "./parsers/VisualizationParserFactory";
 import { City } from "./City";
+import { TableParser } from "./parsers/TableParser";
 
 export enum VisualizationType {
     TABLE = 'table',
@@ -30,5 +31,16 @@ export class Visualization {
     this.query.addFilter(this.scope.column, scopeValue);
 
     return parser.parse(await this.query.execute(), this);
+  }
+
+  async generateTable(city: City) : Promise<unknown> {
+    const scopeValue = this.scope.columnType == "ibge" ? String(city.ibgeCode) : String(city.siafiCode);
+    
+    this.query.addFilter(this.scope.column, scopeValue);
+
+    const parser = new TableParser({});
+    const result = await this.query.execute();
+
+    return parser.parse(result);
   }
 }
