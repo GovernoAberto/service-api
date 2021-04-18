@@ -7,6 +7,10 @@ const VisualizationSchema: Schema = new Schema({
   category: String,
   dataset: String,
   type: String,
+  source: {
+    title: { type: String },
+    link: { type: String }
+  },
   query: {
     type: { type: String },
     data: Object

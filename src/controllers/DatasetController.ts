@@ -71,7 +71,8 @@ class DatasetController
           title: visualization.getDataset().title,
         },
         data: result,
-        notes: visualization.notes
+        notes: visualization.notes,
+        source: visualization.source
       });
     });
 
@@ -122,7 +123,8 @@ class DatasetController
           title: charts[i].title, 
           category: charts[i].category,
           data: chartData[i],
-          notes: charts[i].notes
+          notes: charts[i].notes,
+          source: charts[i].source
         });
       }
       

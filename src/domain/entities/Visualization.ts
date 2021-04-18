@@ -19,7 +19,8 @@ export class Visualization {
     readonly query: DatasetQuery,
     readonly parserType: { type: string, data: unknown },
     readonly linkAlias: string,
-    readonly notes: string[]
+    readonly notes: string[],
+    readonly source?: { title: string, link: string}
   ) {
         
   }
