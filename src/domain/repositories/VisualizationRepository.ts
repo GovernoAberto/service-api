@@ -40,6 +40,7 @@ export class VisualizationRepository{
     return new Visualization(
       visualizationData.alias,
       visualizationData.title,
+      visualizationData.description,
       visualizationData.category,
       visualizationData.type,
       query,

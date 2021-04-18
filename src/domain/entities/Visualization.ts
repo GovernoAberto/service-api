@@ -14,6 +14,7 @@ export class Visualization {
   constructor(
     readonly alias: string,
     readonly title: string,
+    readonly description: string,
     readonly category: string,
     readonly type: VisualizationType,
     readonly query: DatasetQuery,

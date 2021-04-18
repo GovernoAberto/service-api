@@ -4,6 +4,7 @@ const VisualizationSchema: Schema = new Schema({
   alias: String,
   linkAlias: String,
   title: String,
+  description: String,
   category: String,
   dataset: String,
   type: String,

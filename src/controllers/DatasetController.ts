@@ -65,6 +65,7 @@ class DatasetController
         alias: visualization.alias,
         linkAlias: visualization.linkAlias,
         title: visualization.title, 
+        description: visualization.description,
         category: visualization.category,
         dataset: {
           name: visualization.getDataset().name,
@@ -121,6 +122,7 @@ class DatasetController
           alias: charts[i].alias, 
           linkAlias: charts[i].linkAlias,
           title: charts[i].title, 
+          description: charts[i].description, 
           category: charts[i].category,
           data: chartData[i],
           notes: charts[i].notes,
