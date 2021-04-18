@@ -30,7 +30,7 @@ class DatasetController
       const dataset = factory.getDataset(req.params.name);
 
       const query = await factory.selectAll(dataset, Number(req.query.page));
-      query.addFilter("codigoMunicipio", String(city.siafiCode));
+      query.applyScope(city);
       
       if(req.query.page) {
         const perPage = req.query.perPage ? Number(req.query.perPage) : 20;
@@ -111,6 +111,7 @@ class DatasetController
       const repository = new VisualizationRepository(factory);
 
       const charts = await repository.findByType(VisualizationType.CHART);
+
       const chartData = await Promise.all(charts.map(chart => chart.display(city)));
 
       const response = [];

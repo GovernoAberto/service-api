@@ -20,8 +20,9 @@ export class CubeJsApi implements DatasetApi
         }>,
         dimensions: Array<{
             name: string,
-            title: string
-        }>,
+            title: string,
+            meta: any
+        }>
     }>;
     private datasets: Dataset[];
     private source: DataSource;
@@ -47,7 +48,7 @@ export class CubeJsApi implements DatasetApi
       this.loaded = true;
     }
 
-    async executeQuery(query: CubeJsQuery) : Promise<ResultSet> {
+    async executeQuery(query: CubeJsQuery) : Promise<unknown> {
       const cubejsAPI = cubejs(query.dataset.source.token, { apiUrl: query.dataset.source.url });
 
       query.dataset.source.url;

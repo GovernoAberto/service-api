@@ -16,7 +16,6 @@ export class Visualization {
     readonly title: string,
     readonly category: string,
     readonly type: VisualizationType,
-    readonly scope: { type: string, column: string, columnType: string },
     readonly query: DatasetQuery,
     readonly parserType: { type: string, data: unknown },
     readonly linkAlias: string,
@@ -26,21 +25,18 @@ export class Visualization {
   }
 
   async display(city: City) : Promise<unknown> {
-    const scopeValue = this.scope.columnType == "ibge" ? String(city.ibgeCode) : String(city.siafiCode);
-
     const parser = VisualizationParserFactory.build(this);
 
-    this.query.addFilter(this.scope.column, scopeValue);
+    this.query.applyScope(city);
 
     return parser.parse(await this.query.execute(), this);
   }
 
   async generateTable(city: City) : Promise<unknown> {
-    const scopeValue = this.scope.columnType == "ibge" ? String(city.ibgeCode) : String(city.siafiCode);
-    
-    this.query.addFilter(this.scope.column, scopeValue);
-
     const parser = new TableParser({});
+
+    this.query.applyScope(city);
+    
     const result = await this.query.execute();
 
     return parser.parse(result);

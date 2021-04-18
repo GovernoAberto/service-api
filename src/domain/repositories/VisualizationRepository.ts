@@ -42,7 +42,6 @@ export class VisualizationRepository{
       visualizationData.title,
       visualizationData.category,
       visualizationData.type,
-      visualizationData.scope,
       query,
       visualizationData.parser,
       (visualizationData.linkAlias) ? visualizationData.linkAlias : "",

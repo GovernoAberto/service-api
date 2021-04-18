@@ -1,5 +1,6 @@
 import { Query, ResultSet } from "@cubejs-client/core";
 import { ApiFactory } from "@domain/factories/ApiFactory";
+import { City } from "@entities/City";
 import { Dataset } from "../../entities/Dataset";
 import { DatasetQuery } from "./DatasetQuery";
 
@@ -29,15 +30,34 @@ export class CubeJsQuery implements DatasetQuery {
     });
   }
 
-  applyPagination(page: number, perPage = 20) : CubeJsQuery {
+  applyPagination(page: number, perPage = 20) : void {
     if(isNaN(page) || isNaN(perPage)) {
       throw new Error("Not a number");
     }
 
     this.query.limit = perPage,
     this.query.offset = perPage * (page - 1);
+  }
 
-    return this;
+  applyScope(city: City) : void {
+    const scope = this.dataset.getScope();
+    
+    let scopeValue = "";
+
+    if(scope.columnType == 'ibge')
+      scopeValue = String(city.ibgeCode);
+    else if (scope.columnType == 'siafi')
+      scopeValue = String(city.siafiCode);
+    else
+      throw new Error("Invalid cube scope");
+
+    if(!this.query.filters) this.query.filters = [];
+    
+    this.query.filters.push({
+      member: scope.column,
+      operator: 'equals',
+      values: [ scopeValue ]
+    });
   }
 
   getDataset() {

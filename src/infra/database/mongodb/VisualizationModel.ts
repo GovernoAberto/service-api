@@ -7,11 +7,6 @@ const VisualizationSchema: Schema = new Schema({
   category: String,
   dataset: String,
   type: String,
-  scope: {
-    type: { type: String },
-    column: String,
-    columnType: String
-  },
   query: {
     type: { type: String },
     data: Object
@@ -22,7 +17,7 @@ const VisualizationSchema: Schema = new Schema({
   },
   notes: {
     type: Array
-  }
+  },
 });
 
 export default mongoose.model('Visualization', VisualizationSchema);
