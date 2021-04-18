@@ -19,6 +19,9 @@ const VisualizationSchema: Schema = new Schema({
   parser: {
     type: { type: String },
     data: Object
+  },
+  notes: {
+    type: Array
   }
 });
 

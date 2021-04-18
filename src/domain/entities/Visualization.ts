@@ -19,7 +19,8 @@ export class Visualization {
     readonly scope: { type: string, column: string, columnType: string },
     readonly query: DatasetQuery,
     readonly parserType: { type: string, data: unknown },
-    readonly linkAlias: string
+    readonly linkAlias: string,
+    readonly notes: string[]
   ) {
         
   }

@@ -70,7 +70,8 @@ class DatasetController
           name: visualization.getDataset().name,
           title: visualization.getDataset().title,
         },
-        data: result
+        data: result,
+        notes: visualization.notes
       });
     });
 
@@ -119,7 +120,8 @@ class DatasetController
           linkAlias: charts[i].linkAlias,
           title: charts[i].title, 
           category: charts[i].category,
-          data: chartData[i]
+          data: chartData[i],
+          notes: charts[i].notes
         });
       }
       
