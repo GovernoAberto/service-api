@@ -5,7 +5,7 @@ export class Dataset {
     readonly name: string, 
     readonly title: string,
     readonly source: DataSource,
-    readonly metadata: unknown
+    readonly metadata: any
   ) { 
     
   }

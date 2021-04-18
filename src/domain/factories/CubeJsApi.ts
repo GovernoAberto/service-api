@@ -40,6 +40,7 @@ export class CubeJsApi implements DatasetApi
       
       this.datasets = this.cubes.map(cube => { 
         const metadata = cube.description == undefined ? {} : JSON.parse(cube.description);
+        metadata.cube = cube;
         return new Dataset(cube.name, cube.title, this.source, metadata);
       });
 

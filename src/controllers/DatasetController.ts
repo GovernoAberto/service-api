@@ -3,6 +3,8 @@ import { VisualizationRepository } from '@repositories/VisualizationRepository';
 import { Request, Response } from 'express';
 import { CityRepository } from '@repositories/CityRepository';
 import { VisualizationType } from '@entities/Visualization';
+import { DatasetRepository } from '@repositories/DatasetRepository';
+import { TableParser } from '@entities/parsers/TableParser';
 
 class DatasetController
 {
@@ -18,19 +20,22 @@ class DatasetController
     ]);
   }
     
-  datasets(req: Request, res: Response) {
+  async dataset(req: Request, res: Response) {
     const factory = new ApiFactory();
+
+    const cityRepository = new CityRepository();
+    const city = await cityRepository.findById(Number(req.query.city));
     
     factory.load().then(async () => {
-      const repository = new VisualizationRepository(factory);
+      const dataset = factory.getDataset(req.params.name);
+
+      const query = await factory.selectAll(dataset);
+      query.addFilter("codigoMunicipio", String(city.siafiCode));
       
-      console.log(await repository.findByAlias('empresas-por-porte'));
-
-      const visualizations = await repository.all();
-
-      const result = await visualizations[1].display("8801");
-
-      res.send(result);
+      const result = await query.execute();
+      const parser = new TableParser({});
+      
+      res.send(parser.parse(result));
     });
   }
 

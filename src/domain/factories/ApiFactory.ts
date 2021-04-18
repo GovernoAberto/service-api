@@ -42,4 +42,12 @@ export class ApiFactory{
   async executeQuery(dataset: Dataset, query: DatasetQuery) : Promise<any> {
     return await this.apis[0].executeQuery(query);
   }
+
+  async selectAll(dataset: Dataset) : Promise<DatasetQuery> {
+    const dimensions = dataset.metadata.cube.dimensions.map(dimension => dimension.name);
+
+    const query = this.newQuery(dataset, { dimensions: dimensions });
+
+    return query;
+  }
 }
