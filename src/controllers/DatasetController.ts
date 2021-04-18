@@ -63,6 +63,7 @@ class DatasetController
 
       res.send({
         alias: visualization.alias,
+        linkAlias: visualization.linkAlias,
         title: visualization.title, 
         category: visualization.category,
         dataset: {
@@ -92,7 +93,7 @@ class DatasetController
       const result = await visualization.generateTable(city);
 
       res.send({
-        alias: visualization.alias, 
+        alias: visualization.alias,
         title: visualization.title, 
         category: visualization.category,
         data: result
@@ -115,6 +116,7 @@ class DatasetController
       for (let i = 0; i < charts.length; i++) {
         response.push({ 
           alias: charts[i].alias, 
+          linkAlias: charts[i].linkAlias,
           title: charts[i].title, 
           category: charts[i].category,
           data: chartData[i]

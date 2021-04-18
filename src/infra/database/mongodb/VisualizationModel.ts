@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const VisualizationSchema: Schema = new Schema({
   alias: String,
+  linkAlias: String,
   title: String,
   category: String,
   dataset: String,

@@ -44,7 +44,8 @@ export class VisualizationRepository{
       visualizationData.type,
       visualizationData.scope,
       query,
-      visualizationData.parser
+      visualizationData.parser,
+      (visualizationData.linkAlias) ? visualizationData.linkAlias : ""
     );
   }
 }
