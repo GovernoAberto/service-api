@@ -133,6 +133,7 @@ class DatasetController
         title: visualization.title, 
         description: visualization.description,
         category: visualization.category,
+        type: visualization.type,
         dataset: {
           name: visualization.getDataset().name,
           title: visualization.getDataset().title,
@@ -189,6 +190,7 @@ class DatasetController
           title: charts[i].title, 
           description: charts[i].description, 
           category: charts[i].category,
+          type: charts[i].type,
           data: chartData[i],
           notes: charts[i].notes,
           source: charts[i].source
