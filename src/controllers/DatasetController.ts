@@ -3,10 +3,8 @@ import { VisualizationRepository } from '@repositories/VisualizationRepository';
 import { Request, Response } from 'express';
 import { CityRepository } from '@repositories/CityRepository';
 import { VisualizationType } from '@entities/Visualization';
-import { DatasetRepository } from '@repositories/DatasetRepository';
 import { TableParser } from '@entities/parsers/TableParser';
 import { CsvParser } from '@entities/parsers/CsvParser';
-import { VisualizationParser } from '@entities/parsers/VisualizationParser';
 import { JsonParser } from '@entities/parsers/JsonParser';
 
 class DatasetController
@@ -15,7 +13,7 @@ class DatasetController
   categories(req: Request, res: Response) {
     res.send([
       { label: 'Todas categorias', btn_class: 'btn-light', btn_alt_class: 'btn-outline-dark', icon: null },
-      { label: 'Contas Públicas', btn_class: 'btn-secondary', btn_alt_class: 'btn-outline-secondary', icon: 'building' },
+      { label: 'Governo', btn_class: 'btn-secondary', btn_alt_class: 'btn-outline-secondary', icon: 'building' },
       { label: 'Saúde', btn_class: 'btn-primary', btn_alt_class: 'btn-outline-primary', icon: 'ambulance' },
       { label: 'Economia', btn_class: 'btn-warning', btn_alt_class: 'btn-outline-warning', icon: 'dollar-sign' },
       { label: 'Educação', btn_class: 'btn-success', btn_alt_class: 'btn-outline-success', icon: 'book' },
