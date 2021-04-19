@@ -24,6 +24,25 @@ export class VisualizationRepository{
     return visualization;
   }
 
+  async filter(type: VisualizationType, category ?: string, title ?: string) : Promise<Visualization[]> {
+    const filters:any = { type: type};
+
+    if(category != undefined && category.length > 0) {
+      filters.category = category; 
+    }
+
+    if(title != undefined && title.length > 0) {
+      filters.title = {
+        $regex: '.*' + title + '.*', $options:'i'
+      };
+    }
+
+    const visualizationsDB = await VisualizationModel.find(filters);
+    const visualizations = visualizationsDB.map(item => this.parseVisualization(item));
+
+    return visualizations;
+  }
+
   async findByType(type: VisualizationType) : Promise<Visualization[]> {
     const visualizationsDB = await VisualizationModel.find({ type: type });
     const visualizations = visualizationsDB.map(item => this.parseVisualization(item));

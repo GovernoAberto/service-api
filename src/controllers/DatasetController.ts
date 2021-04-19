@@ -179,7 +179,11 @@ class DatasetController
     factory.load().then(async () => {
       const repository = new VisualizationRepository(factory);
 
-      const charts = await repository.findByType(VisualizationType.CHART);
+      const charts = await repository.filter(
+        VisualizationType.CHART, 
+        req.query.category == undefined ? '' : String(req.query.category).trim(), 
+        req.query.title == undefined ? '' : String(req.query.title).trim()
+      );
 
       const chartData = await Promise.all(charts.map(chart => chart.display(city)));
 
