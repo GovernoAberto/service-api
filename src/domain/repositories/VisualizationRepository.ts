@@ -47,7 +47,8 @@ export class VisualizationRepository{
       visualizationData.parser,
       (visualizationData.linkAlias) ? visualizationData.linkAlias : "",
       visualizationData.notes ? visualizationData.notes : [],
-      visualizationData.source.title ? visualizationData.source : null
+      visualizationData.source.title ? visualizationData.source : null,
+      visualizationData.period
     );
   }
 }

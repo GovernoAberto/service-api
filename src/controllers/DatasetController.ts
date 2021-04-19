@@ -140,7 +140,8 @@ class DatasetController
         },
         data: result,
         notes: visualization.notes,
-        source: visualization.source
+        source: visualization.source,
+        period: visualization.period
       });
     });
 
@@ -193,7 +194,8 @@ class DatasetController
           type: charts[i].type,
           data: chartData[i],
           notes: charts[i].notes,
-          source: charts[i].source
+          source: charts[i].source,
+          period: charts[i].period
         });
       }
       
