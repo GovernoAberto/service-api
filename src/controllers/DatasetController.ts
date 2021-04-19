@@ -5,6 +5,9 @@ import { CityRepository } from '@repositories/CityRepository';
 import { VisualizationType } from '@entities/Visualization';
 import { DatasetRepository } from '@repositories/DatasetRepository';
 import { TableParser } from '@entities/parsers/TableParser';
+import { CsvParser } from '@entities/parsers/CsvParser';
+import { VisualizationParser } from '@entities/parsers/VisualizationParser';
+import { JsonParser } from '@entities/parsers/JsonParser';
 
 class DatasetController
 {
@@ -40,6 +43,69 @@ class DatasetController
       const result = await query.execute();
       const parser = new TableParser({});
       
+      res.send(parser.parse(result));
+    });
+  }
+
+  async downloadDataset(req: Request, res: Response) {
+    const factory = new ApiFactory();
+
+    const cityRepository = new CityRepository();
+    const city = await cityRepository.findById(Number(req.query.city));
+    
+    factory.load().then(async () => {
+      const dataset = factory.getDataset(req.params.name);
+
+      const query = await factory.selectAll(dataset, Number(req.query.page));
+      query.applyScope(city);
+      
+      const result = await query.execute();
+      let parser;
+      if(req.params.format == 'csv') {
+        parser = new CsvParser({});
+        res.set('Content-disposition', 'attachment; filename=' + dataset.title + ".csv");
+        res.set('Content-Type', 'text/csv');
+      } 
+      
+      if(req.params.format == 'json') {
+        parser = new JsonParser({});
+        res.set('Content-disposition', 'attachment; filename=' + dataset.title + ".json");
+        res.set('Content-Type', 'text/json');
+      }
+
+      res.send(parser.parse(result));
+    });
+  }
+
+  downloadVisualizationTable(req: Request, res: Response) {
+    const alias = req.params.alias;
+
+    const factory = new ApiFactory();
+
+    factory.load().then(async () => {
+      const repository = new VisualizationRepository(factory);
+      const visualization = await repository.findByAlias(alias);
+
+      const cityRepository = new CityRepository();
+      const city = await cityRepository.findById(Number(req.query.city));
+      
+      if(!city) res.status(500).send("Erro");
+
+      const result = await visualization.generateData(city);
+      let parser;
+
+      if(req.params.format == 'csv') {
+        parser = new CsvParser({});
+        res.set('Content-disposition', 'attachment; filename=' + visualization.title + ' - ' +  city.name + ".csv");
+        res.set('Content-Type', 'text/csv');
+      } 
+      
+      if(req.params.format == 'json') {
+        parser = new JsonParser({});
+        res.set('Content-disposition', 'attachment; filename=' + visualization.title + ' - ' +  city.name + ".json");
+        res.set('Content-Type', 'text/json');
+      }
+
       res.send(parser.parse(result));
     });
   }
@@ -102,7 +168,6 @@ class DatasetController
         data: result
       });
     });
-
   }
 
   async visualizations(req: Request, res: Response) {

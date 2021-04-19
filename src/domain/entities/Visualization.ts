@@ -44,6 +44,14 @@ export class Visualization {
     return parser.parse(result);
   }
 
+  async generateData(city: City) : Promise<unknown> {
+    this.query.applyScope(city);
+    
+    const result = await this.query.execute();
+
+    return result;
+  }
+
   getDataset() {
     return this.query.getDataset();
   }
