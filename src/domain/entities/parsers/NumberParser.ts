@@ -15,7 +15,7 @@ export class NumberParser extends VisualizationParser {
 
     return {
       label: visualization.title,
-      format: (this.config.data.format != undefined) ? this.config.data.format : 'number',
+      format: (this.config.data && this.config.data.format != undefined) ? this.config.data.format : 'number',
       value: table[0][Object.keys(table[0])[0]]
     };
   }
