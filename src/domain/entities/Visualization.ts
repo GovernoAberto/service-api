@@ -21,6 +21,7 @@ export class Visualization {
     readonly parserType: { type: string, data: unknown },
     readonly linkAlias: string,
     readonly notes: string[],
+    readonly order: number,
     readonly source?: { title: string, link: string},
     readonly period?: string
   ) {

@@ -24,8 +24,9 @@ export class VisualizationRepository{
     return visualization;
   }
 
-  async filter(type: VisualizationType, category ?: string, title ?: string) : Promise<Visualization[]> {
+  async filter(type: VisualizationType, limit: number, skip: number, category ?: string, title ?: string) : Promise<Visualization[]> {
     const filters:any = { type: type};
+    const options:any = { sort: { 'order': 'asc' }, limit: limit, skip: skip };
 
     if(category != undefined && category.length > 0) {
       filters.category = category; 
@@ -37,7 +38,7 @@ export class VisualizationRepository{
       };
     }
 
-    const visualizationsDB = await VisualizationModel.find(filters);
+    const visualizationsDB = await VisualizationModel.find(filters, null, options);
     const visualizations = visualizationsDB.map(item => this.parseVisualization(item));
 
     return visualizations;
@@ -66,6 +67,7 @@ export class VisualizationRepository{
       visualizationData.parser,
       (visualizationData.linkAlias) ? visualizationData.linkAlias : "",
       visualizationData.notes ? visualizationData.notes : [],
+      visualizationData.order,
       visualizationData.source.title ? visualizationData.source : null,
       visualizationData.period
     );

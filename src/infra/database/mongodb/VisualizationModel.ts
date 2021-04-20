@@ -12,6 +12,7 @@ const VisualizationSchema: Schema = new Schema({
     title: { type: String },
     link: { type: String }
   },
+  order: { type: Number, default: 1 },
   period: String,
   query: {
     type: { type: String },

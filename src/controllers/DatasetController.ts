@@ -132,7 +132,9 @@ class DatasetController
       const factory = await new ApiFactory().load();
 
       const charts = await new VisualizationRepository(factory).filter(
-        VisualizationType.CHART, 
+        VisualizationType.CHART,
+        req.query.limit != undefined && Number(req.query.limit) > 0 ? Number(req.query.limit) : 100,
+        req.query.skip != undefined && Number(req.query.skip) > 0 ? Number(req.query.skip) : 0,
         req.query.category == undefined ? '' : String(req.query.category).trim(), 
         req.query.title == undefined ? '' : String(req.query.title).trim()
       );
