@@ -1,6 +1,4 @@
-import { City } from "@domain/entities/City";
 import { Router } from "express";
-import { CityRepository } from "./domain/repositories/CityRepository";
 import datasetController from './controllers/DatasetController';
 import cityController from './controllers/CityController';
 
@@ -18,7 +16,7 @@ router.get('/dataset/:name/download/:format', datasetController.downloadDataset)
 router.get('/categories', datasetController.categories);
 router.get('/visualization/:alias', datasetController.visualization);
 router.get('/visualization/:alias/table', datasetController.tableByVisualization);
-router.get('/visualization/:alias/table/download/:format', datasetController.downloadVisualizationTable);
+router.get('/visualization/:alias/download/:format', datasetController.downloadVisualizationTable);
 router.get('/visualizations', datasetController.visualizations);
 
 export { router };

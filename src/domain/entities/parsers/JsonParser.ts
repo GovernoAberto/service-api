@@ -8,7 +8,7 @@ export class JsonParser extends VisualizationParser {
     super();
   }
 
-  parse(data: ResultSet) : unknown{
+  parse(data: any) : unknown{
     const tableColumns = data.tableColumns();
     const tableData = data.tablePivot();
     

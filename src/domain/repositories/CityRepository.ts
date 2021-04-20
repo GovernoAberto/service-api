@@ -1,5 +1,6 @@
 import { City } from "@entities/City";
 import { State } from "@entities/State";
+import CityNotFound from "@exceptions/Exceptions";
 import CityModel from "@infra/database/mongodb/CityModel";
 
 export class CityRepository{
@@ -28,11 +29,17 @@ export class CityRepository{
       "state.alias": stateAlias
     });
 
+    if(!city)
+      throw new CityNotFound();
+
     return city;
   }
 
   async findById(id: number) : Promise<City> {
     const city = await this.mongoDB.findOne({ "id": id });
+
+    if(!city)
+      throw new CityNotFound();
 
     return city;
   }

@@ -21,7 +21,9 @@
         "@domain/*": ["src/domain/*"],
         "@database/*": ["src/infra/database/*"],
         "@infra/*": ["src/infra/*"],
-        "@docs/*": ["src/docs/*"]
+        "@docs/*": ["src/docs/*"],
+        "@exceptions/*": ["src/exceptions/*"],
+        "@presenters/*": ["src/presenters/*"]
       }
     },
     "include": [

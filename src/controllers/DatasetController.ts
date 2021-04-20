@@ -6,6 +6,11 @@ import { VisualizationType } from '@entities/Visualization';
 import { TableParser } from '@entities/parsers/TableParser';
 import { CsvParser } from '@entities/parsers/CsvParser';
 import { JsonParser } from '@entities/parsers/JsonParser';
+import BaseError from '@exceptions/BaseError';
+import presentVisualization from '@presenters/presentVisualization';
+import presentVisualizationTable from '@presenters/presentVisualizationTable';
+import presentVisualizationCsv from '@presenters/presentVisualizationCsv';
+import presentVisualizationJson from '@presenters/presentVisualizationJson';
 
 class DatasetController
 {
@@ -22,12 +27,10 @@ class DatasetController
   }
     
   async dataset(req: Request, res: Response) {
-    const factory = new ApiFactory();
+    try{
+      const city = await new CityRepository().findById(Number(req.query.city));
+      const factory = await new ApiFactory().load();
 
-    const cityRepository = new CityRepository();
-    const city = await cityRepository.findById(Number(req.query.city));
-    
-    factory.load().then(async () => {
       const dataset = factory.getDataset(req.params.name);
 
       const query = await factory.selectAll(dataset, Number(req.query.page));
@@ -42,16 +45,15 @@ class DatasetController
       const parser = new TableParser({});
       
       res.send(parser.parse(result));
-    });
+    } catch (error) {
+      DatasetController.handleErrors(error, res);
+    }
   }
 
   async downloadDataset(req: Request, res: Response) {
-    const factory = new ApiFactory();
-
-    const cityRepository = new CityRepository();
-    const city = await cityRepository.findById(Number(req.query.city));
-    
-    factory.load().then(async () => {
+    try{
+      const city = await new CityRepository().findById(Number(req.query.city));
+      const factory = await new ApiFactory().load();
       const dataset = factory.getDataset(req.params.name);
 
       const query = await factory.selectAll(dataset, Number(req.query.page));
@@ -72,139 +74,82 @@ class DatasetController
       }
 
       res.send(parser.parse(result));
-    });
+    } catch (error) {
+      DatasetController.handleErrors(error, res);
+    }
   }
 
-  downloadVisualizationTable(req: Request, res: Response) {
-    const alias = req.params.alias;
+  async downloadVisualizationTable(req: Request, res: Response) {
+    try{
+      const city = await new CityRepository().findById(Number(req.query.city));
+      const factory = await new ApiFactory().load();
+      const visualization = await new VisualizationRepository(factory).findByAlias(req.params.alias);
 
-    const factory = new ApiFactory();
-
-    factory.load().then(async () => {
-      const repository = new VisualizationRepository(factory);
-      const visualization = await repository.findByAlias(alias);
-
-      const cityRepository = new CityRepository();
-      const city = await cityRepository.findById(Number(req.query.city));
-      
-      if(!city) res.status(500).send("Erro");
-
-      const result = await visualization.generateData(city);
-      let parser;
-
-      if(req.params.format == 'csv') {
-        parser = new CsvParser({});
-        res.set('Content-disposition', 'attachment; filename=' + visualization.title + ' - ' +  city.name + ".csv");
-        res.set('Content-Type', 'text/csv');
-      } 
-      
-      if(req.params.format == 'json') {
-        parser = new JsonParser({});
-        res.set('Content-disposition', 'attachment; filename=' + visualization.title + ' - ' +  city.name + ".json");
-        res.set('Content-Type', 'text/json');
+      switch (req.params.format) {
+      case 'csv':
+        res.send(await presentVisualizationCsv(visualization, city, res));
+        break;
+      case 'json':
+        res.send(await presentVisualizationJson(visualization, city, res));
+        break;
+      default:
+        throw new Error("Erro");
+        break;
       }
 
-      res.send(parser.parse(result));
-    });
+    } catch (error) {
+      DatasetController.handleErrors(error, res);
+    }
   }
 
-  visualization(req: Request, res: Response) {
-    const alias = req.params.alias;
+  async visualization(req: Request, res: Response) {
+    try{
+      const city = await new CityRepository().findById(Number(req.query.city));
+      const factory = await new ApiFactory().load();
+      const visualization = await new VisualizationRepository(factory).findByAlias(req.params.alias);
 
-    const factory = new ApiFactory();
-
-    factory.load().then(async () => {
-      const repository = new VisualizationRepository(factory);
-      const visualization = await repository.findByAlias(alias);
-
-      const cityRepository = new CityRepository();
-      
-      const city = await cityRepository.findById(Number(req.query.city));
-      
-      if(!city) res.status(500).send("Erro");
-
-      const result = await visualization.display(city);
-
-      res.send({
-        alias: visualization.alias,
-        linkAlias: visualization.linkAlias,
-        title: visualization.title, 
-        description: visualization.description,
-        category: visualization.category,
-        type: visualization.type,
-        dataset: {
-          name: visualization.getDataset().name,
-          title: visualization.getDataset().title,
-        },
-        data: result,
-        notes: visualization.notes,
-        source: visualization.source,
-        period: visualization.period
-      });
-    });
-
+      res.send(await presentVisualization(visualization, city));
+    } catch (error) {
+      DatasetController.handleErrors(error, res);
+    }
   }
 
-  tableByVisualization(req: Request, res: Response) {
-    const alias = req.params.alias;
+  async tableByVisualization(req: Request, res: Response) {
+    try{
+      const city = await new CityRepository().findById(Number(req.query.city));
+      const factory = await new ApiFactory().load();
+      const visualization = await new VisualizationRepository(factory).findByAlias(req.params.alias);
 
-    const factory = new ApiFactory();
-
-    factory.load().then(async () => {
-      const repository = new VisualizationRepository(factory);
-      const visualization = await repository.findByAlias(alias);
-
-      const cityRepository = new CityRepository();
-      const city = await cityRepository.findById(Number(req.query.city));
-      
-      if(!city) res.status(500).send("Erro");
-
-      const result = await visualization.generateTable(city);
-
-      res.send({
-        alias: visualization.alias,
-        title: visualization.title, 
-        category: visualization.category,
-        data: result
-      });
-    });
+      res.send(await presentVisualizationTable(visualization, city));
+    } catch (error) {
+      DatasetController.handleErrors(error, res);
+    }
   }
 
   async visualizations(req: Request, res: Response) {
-    const city = await new CityRepository().findByAlias(String(req.query.state), String(req.query.city));
+    try {
+      const city = await new CityRepository().findByAlias(String(req.query.state), String(req.query.city));
+      const factory = await new ApiFactory().load();
 
-    const factory = new ApiFactory();
-    factory.load().then(async () => {
-      const repository = new VisualizationRepository(factory);
-
-      const charts = await repository.filter(
+      const charts = await new VisualizationRepository(factory).filter(
         VisualizationType.CHART, 
         req.query.category == undefined ? '' : String(req.query.category).trim(), 
         req.query.title == undefined ? '' : String(req.query.title).trim()
       );
 
-      const chartData = await Promise.all(charts.map(chart => chart.display(city)));
-
-      const response = [];
-      for (let i = 0; i < charts.length; i++) {
-        response.push({ 
-          alias: charts[i].alias, 
-          linkAlias: charts[i].linkAlias,
-          title: charts[i].title, 
-          description: charts[i].description, 
-          category: charts[i].category,
-          type: charts[i].type,
-          data: chartData[i],
-          notes: charts[i].notes,
-          source: charts[i].source,
-          period: charts[i].period
-        });
-      }
+      const promises = charts.map(chart => presentVisualization(chart, city));
       
-      res.send(response);
-    }).catch(error => {
-      console.log(error);
-    });
+      res.send(await Promise.all(promises));
+    } catch (error) {
+      DatasetController.handleErrors(error, res);
+    }
+  }
+
+  private static handleErrors(error, response) {
+    if(error instanceof BaseError)
+      error.renderHttpResponse(response);
+    else
+      throw error;
   }
 }
 

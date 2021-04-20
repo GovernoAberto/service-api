@@ -9,7 +9,7 @@ export class ApiFactory{
 
   private apis: DatasetApi[] = [];
 
-  async load() : Promise<void> {
+  async load() : Promise<ApiFactory> {
     const api = new CubeJsApi(
       process.env.CUBE_JS_API_1_NAME,
       process.env.CUBE_JS_API_1_TOKEN,
@@ -18,6 +18,8 @@ export class ApiFactory{
     await Promise.all([ api.load() ]);
 
     this.apis = [api];
+
+    return this;
   }
 
   getDataset(name) : Dataset {
