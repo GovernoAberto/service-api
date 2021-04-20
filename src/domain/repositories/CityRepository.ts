@@ -18,7 +18,7 @@ export class CityRepository{
   }
 
   async findByState(alias:string) : Promise<City[]> {
-    const cities = await this.mongoDB.find({ "state.alias": alias });
+    const cities = await this.mongoDB.find({ "state.alias": alias }).sort({ "name" : 1 }).exec();
 
     return cities;
   }
