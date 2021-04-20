@@ -4,7 +4,7 @@ import { VisualizationParser } from "./VisualizationParser";
 export class TableParser extends VisualizationParser {
   type = "table";
 
-  constructor(private config:unknown) {
+  constructor(private config?: { type: string, data: unknown }) {
     super();
   }
 

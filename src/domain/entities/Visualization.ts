@@ -36,7 +36,7 @@ export class Visualization {
   }
 
   async generateTable(city: City) : Promise<unknown> {
-    const parser = new TableParser({});
+    const parser = new TableParser();
 
     this.query.applyScope(city);
     

@@ -4,7 +4,7 @@ import { VisualizationParser } from "./VisualizationParser";
 export class CsvParser extends VisualizationParser {
   type = "csv";
 
-  constructor(private config:unknown) {
+  constructor(private config?: { type: string, data: unknown }) {
     super();
   }
 

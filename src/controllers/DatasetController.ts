@@ -42,7 +42,7 @@ class DatasetController
       }
       
       const result = await query.execute();
-      const parser = new TableParser({});
+      const parser = new TableParser();
       
       res.send(parser.parse(result));
     } catch (error) {
@@ -62,13 +62,13 @@ class DatasetController
       const result = await query.execute();
       let parser;
       if(req.params.format == 'csv') {
-        parser = new CsvParser({});
+        parser = new CsvParser();
         res.set('Content-disposition', 'attachment; filename=' + dataset.title + ".csv");
         res.set('Content-Type', 'text/csv');
       } 
       
       if(req.params.format == 'json') {
-        parser = new JsonParser({});
+        parser = new JsonParser();
         res.set('Content-disposition', 'attachment; filename=' + dataset.title + ".json");
         res.set('Content-Type', 'text/json');
       }

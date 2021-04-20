@@ -4,7 +4,7 @@ import { VisualizationParser } from "./VisualizationParser";
 export class NumberParser extends VisualizationParser {
   type = "number";
 
-  constructor(private config) {
+  constructor(private config: { type: string, data: any }) {
     super();
   }
 
@@ -15,7 +15,7 @@ export class NumberParser extends VisualizationParser {
 
     return {
       label: visualization.title,
-      format: (this.config.format != undefined) ? this.config.format : 'number',
+      format: (this.config.data.format != undefined) ? this.config.data.format : 'number',
       value: table[0][Object.keys(table[0])[0]]
     };
   }

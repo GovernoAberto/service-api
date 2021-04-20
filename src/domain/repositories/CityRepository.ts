@@ -36,6 +36,8 @@ export class CityRepository{
   }
 
   async findById(id: number) : Promise<City> {
+    if(!id) { throw new CityNotFound(); }
+
     const city = await this.mongoDB.findOne({ "id": id });
 
     if(!city)
