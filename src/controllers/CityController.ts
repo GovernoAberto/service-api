@@ -1,3 +1,4 @@
+import BaseError from '@exceptions/BaseError';
 import { CityRepository } from '@repositories/CityRepository';
 import { StateRepository } from '@repositories/StateRepository';
 import { Request, Response } from 'express';
@@ -5,27 +6,45 @@ import { Request, Response } from 'express';
 class CityController
 {
   async states(req: Request, res: Response) {
-    const respository = new StateRepository();
-    res.send(await respository.all());
+    try {
+
+      res.send(await new StateRepository().all());
+
+    } catch (error) {
+      CityController.handleErrors(error, res);
+    }
   }
     
   async cities(req: Request, res: Response) {
-    const cityRepository = new CityRepository();
-    
-    const cities = await cityRepository.findByState(req.params.alias);
+    try {
+      
+      const cities = await new CityRepository().findByState(req.params.alias);
+      res.send(cities);
 
-    res.send(cities);
+    } catch (error) {
+      CityController.handleErrors(error, res);
+    }
   }
 
   async cityInfo(req: Request, res: Response) {
-    const cityRepository = new CityRepository();
+    try {
 
-    const city = await cityRepository.findByAlias(req.params.state, req.params.city);
-        
-    res.send({
-      state: city.state,
-      city: city
-    });
+      const city = await new CityRepository().findByAlias(req.params.state, req.params.city);
+      res.send({
+        state: city.state,
+        city: city
+      });
+
+    } catch (error) {
+      CityController.handleErrors(error, res);
+    }
+  }
+
+  static handleErrors(error, response) {
+    if(error instanceof BaseError)
+      error.renderHttpResponse(response);
+    else
+      throw error;
   }
 }
 
