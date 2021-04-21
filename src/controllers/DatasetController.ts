@@ -33,7 +33,7 @@ class DatasetController
 
       const dataset = factory.getDataset(req.params.name);
 
-      const query = await factory.selectAll(dataset, Number(req.query.page));
+      const query = await factory.selectAllPublic(dataset, Number(req.query.page));
       query.applyScope(city);
       
       if(req.query.page) {
@@ -56,7 +56,7 @@ class DatasetController
       const factory = await new ApiFactory().load();
       const dataset = factory.getDataset(req.params.name);
 
-      const query = await factory.selectAll(dataset, Number(req.query.page));
+      const query = await factory.selectAllPublic(dataset, Number(req.query.page));
       query.applyScope(city);
       
       const result = await query.execute();
