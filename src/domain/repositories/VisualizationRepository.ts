@@ -10,6 +10,44 @@ export class VisualizationRepository{
 
   }
 
+  async add() : Promise<void> {
+    const view = {
+      alias: "nascimentos-2020",
+      title: "Nascimentos em 2020",
+      category: "Saúde",
+      dataset: "Nascimentos",
+      type: "chart",
+      query: {
+        type: "cubejs",
+        data: {
+          measures: [ "Nascimentos.total" ],
+          dimensions: [ "Nascimentos.ano", "Nascimentos.mes" ],
+          order: [ ["Nascimentos.ano","asc"], ["Nascimentos.mes","asc"] ],
+          filters: [{
+            member: "Nascimentos.ano",
+            operator: "equals",
+            values: [ "2020" ]
+          }]
+        }
+      },
+      parser: {
+        type: "line-chart",
+        data: {
+
+        }
+      },
+      notes: [],
+      source: {
+        title: "Portal da Transparência do Registro Cívil",
+        link: "https://transparencia.registrocivil.org.br/registros"
+      }
+    };
+
+    const newView = await VisualizationModel.create(view);
+
+    console.log(newView);
+  }
+
   async all() : Promise<Visualization[]> {
     const visualizationsDB = await VisualizationModel.find();
     const visualizations = visualizationsDB.map(item => this.parseVisualization(item));

@@ -14,6 +14,11 @@ import presentVisualizationJson from '@presenters/presentVisualizationJson';
 
 class DatasetController
 {
+  async add(req: Request, res: Response) {
+    const factory = await new ApiFactory().load();
+    const repository = new VisualizationRepository(factory);
+    await repository.add();
+  }
 
   categories(req: Request, res: Response) {
     res.send([
@@ -25,8 +30,24 @@ class DatasetController
       { label: 'Transporte', btn_class: 'btn-danger', btn_alt_class: 'btn-outline-danger', icon: 'bus' }
     ]);
   }
-    
+
   async dataset(req: Request, res: Response) {
+    try{
+      const city = await new CityRepository().findById(Number(req.query.city));
+      const factory = await new ApiFactory().load();
+      const dataset = factory.getDataset(req.params.name);
+      
+      res.send({
+        name: dataset.name,
+        title: dataset.title,
+        city: city
+      });
+    } catch (error) {
+      DatasetController.handleErrors(error, res);
+    }
+  }
+    
+  async datasetTable(req: Request, res: Response) {
     try{
       const city = await new CityRepository().findById(Number(req.query.city));
       const factory = await new ApiFactory().load();

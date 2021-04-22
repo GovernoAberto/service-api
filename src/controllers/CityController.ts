@@ -7,7 +7,6 @@ class CityController
 {
   async states(req: Request, res: Response) {
     try {
-
       res.send(await new StateRepository().all());
 
     } catch (error) {
