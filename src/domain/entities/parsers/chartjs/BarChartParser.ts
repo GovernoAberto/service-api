@@ -20,6 +20,7 @@ export class BarChartParser extends VisualizationParser {
           label: s.title,
           data: s.series.map((r) => r.value),
           borderColor: colors[index],
+          backgroundColor: "#E7C000",
           fill: false,
         }))
       }

@@ -9,8 +9,8 @@ export class LineChartParser extends VisualizationParser {
   }
 
   parse(data: any, visualization: Visualization) : unknown{
-    const colors = ['#FF6492', '#141446', '#7A77FF'];
-
+    const width = (data.categories().length > 15) ? 1 : 5;
+    
     return {
       type: this.config.type,
       renderer: 'chartjs',
@@ -19,7 +19,9 @@ export class LineChartParser extends VisualizationParser {
         datasets: data.series().map((s, index) => ({
           label: s.title,
           data: s.series.map((r) => r.value),
-          backgroundColor: colors[index],
+          borderColor: 'rgb(75, 192, 192)',
+          pointBorderWidth: width,
+          pointHoverBorderWidth: width,
           fill: false,
         }))
       }
