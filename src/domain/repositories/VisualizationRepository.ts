@@ -3,6 +3,7 @@ import { ApiFactory } from "@domain/factories/ApiFactory";
 import { CubeJsQuery } from "@domain/entities/query/CubeJsQuery";
 import { Visualization, VisualizationType } from "@entities/Visualization";
 import VisualizationModel from "@infra/database/mongodb/VisualizationModel";
+import { VisualizationNotFound } from "@exceptions/Exceptions";
 
 export class VisualizationRepository{
 
@@ -90,7 +91,9 @@ export class VisualizationRepository{
   }
 
   private parseVisualization(visualizationData: any) : Visualization {
-    
+    if(!visualizationData)
+      throw new VisualizationNotFound();
+
     const dataset = this.factory.getDataset(visualizationData.dataset);
 
     const query = new CubeJsQuery(dataset, visualizationData.query.data, this.factory);

@@ -30,8 +30,20 @@ class ConnectionApiError extends BaseError {
   }
 }
 
+class VisualizationNotFound extends BaseError {
+  code = 4;
+  httpCode = 500;
+  message = "A visualização não foi encontrada";
+  data;
+
+  constructor() {
+    super();
+  }
+}
+
 export { 
   CityNotFound,
   QueryError,
-  ConnectionApiError
+  ConnectionApiError,
+  VisualizationNotFound
 };
