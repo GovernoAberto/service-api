@@ -4,6 +4,7 @@ import { Dataset } from "@entities/Dataset";
 import { DataSource, DataSourceType } from "@entities/DataSource";
 import cubejs, { CubejsApi, ResultSet } from '@cubejs-client/core';
 import { CubeJsQuery } from "@domain/entities/query/CubeJsQuery";
+import { QueryError, ConnectionApiError } from "@exceptions/Exceptions";
 
 export class CubeJsApi implements DatasetApi
 {
@@ -32,30 +33,37 @@ export class CubeJsApi implements DatasetApi
     }
 
     async load() : Promise<void> {
-      this.loaded = false;
+      try {
+        this.loaded = false;
 
-      const response = await axios.get(this.source.url + '/meta', {
-        headers: {'Authorization': this.source.token}
-      });
-      this.cubes = response.data.cubes;
-      
-      this.datasets = this.cubes.map(cube => { 
-        const metadata = cube.description == undefined ? {} : JSON.parse(cube.description);
-        metadata.cube = cube;
-        return new Dataset(cube.name, cube.title, this.source, metadata);
-      });
+        const response = await axios.get(this.source.url + '/meta', {
+          headers: {'Authorization': this.source.token}
+        });
+        this.cubes = response.data.cubes;
+        
+        this.datasets = this.cubes.map(cube => { 
+          const metadata = cube.description == undefined ? {} : JSON.parse(cube.description);
+          metadata.cube = cube;
+          return new Dataset(cube.name, cube.title, this.source, metadata);
+        });
 
-      this.loaded = true;
+        this.loaded = true;
+      } catch (error) {
+        throw new ConnectionApiError(error);
+      }
     }
 
     async executeQuery(query: CubeJsQuery) : Promise<unknown> {
-      const cubejsAPI = cubejs(query.dataset.source.token, { apiUrl: query.dataset.source.url });
+      try {
 
-      query.dataset.source.url;
-      
-      const result = await cubejsAPI.load(query.process());
-      
-      return result;
+        const cubejsAPI = cubejs(query.dataset.source.token, { apiUrl: query.dataset.source.url });
+        const result = await cubejsAPI.load(query.process());
+        
+        return result;
+
+      } catch (error) {
+        throw new QueryError(error);
+      }
     }
     
     get() : string {
