@@ -17,7 +17,7 @@ export class LineChartParser extends VisualizationParser {
       result: {
         labels: data.categories().map((c) => c.category),
         datasets: data.series().map((s, index) => ({
-          label: s.title,
+          label: data.tableColumns().find(c => c.key == s.key).shortTitle,
           data: s.series.map((r) => r.value),
           borderColor: 'rgb(75, 192, 192)',
           pointBorderWidth: width,

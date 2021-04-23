@@ -17,7 +17,7 @@ export class BarChartParser extends VisualizationParser {
       result: {
         labels: data.categories().map((c) => c.category),
         datasets: data.series().map((s, index) => ({
-          label: s.title,
+          label: data.tableColumns().find(c => c.key == s.key).shortTitle,
           data: s.series.map((r) => r.value),
           borderColor: colors[index],
           backgroundColor: "#E7C000",

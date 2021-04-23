@@ -25,14 +25,14 @@ export class PieChartParser extends VisualizationParser {
     ];
     
     const colors = data.categories().length <= 12 ? pallete[data.categories().length - 1] : pallete[11];
-
+    
     return {
       type: this.config.type,
       renderer: 'chartjs',
       result: {
         labels: data.categories().map((c) => c.category),
         datasets: data.series().map((s) => ({
-          label: s.title,
+          label: data.tableColumns().find(c => c.key == s.key).shortTitle,
           data: s.series.map((r) => r.value),
           backgroundColor: colors,
           hoverBackgroundColor: colors,
