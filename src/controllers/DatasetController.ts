@@ -31,7 +31,7 @@ class DatasetController
     ]);
   }
 
-  async dataset(req: Request, res: Response) {
+  async dataset(req: Request, res: Response, next) {
     try{
       const city = await new CityRepository().findById(Number(req.query.city));
       const factory = await new ApiFactory().load();
@@ -43,11 +43,11 @@ class DatasetController
         city: city
       });
     } catch (error) {
-      DatasetController.handleErrors(error, res);
+      next(error);
     }
   }
     
-  async datasetTable(req: Request, res: Response) {
+  async datasetTable(req: Request, res: Response, next) {
     try{
       const city = await new CityRepository().findById(Number(req.query.city));
       const factory = await new ApiFactory().load();
@@ -67,11 +67,11 @@ class DatasetController
       
       res.send(parser.parse(result));
     } catch (error) {
-      DatasetController.handleErrors(error, res);
+      next(error);
     }
   }
 
-  async downloadDataset(req: Request, res: Response) {
+  async downloadDataset(req: Request, res: Response, next) {
     try{
       const city = await new CityRepository().findById(Number(req.query.city));
       const factory = await new ApiFactory().load();
@@ -96,11 +96,11 @@ class DatasetController
 
       res.send(parser.parse(result));
     } catch (error) {
-      DatasetController.handleErrors(error, res);
+      next(error);
     }
   }
 
-  async downloadVisualizationTable(req: Request, res: Response) {
+  async downloadVisualizationTable(req: Request, res: Response, next) {
     try{
       const city = await new CityRepository().findById(Number(req.query.city));
       const factory = await new ApiFactory().load();
@@ -119,11 +119,11 @@ class DatasetController
       }
 
     } catch (error) {
-      DatasetController.handleErrors(error, res);
+      next(error);
     }
   }
 
-  async visualization(req: Request, res: Response) {
+  async visualization(req: Request, res: Response, next) {
     try{
       const city = await new CityRepository().findById(Number(req.query.city));
       const factory = await new ApiFactory().load();
@@ -131,11 +131,11 @@ class DatasetController
 
       res.send(await presentVisualization(visualization, city));
     } catch (error) {
-      DatasetController.handleErrors(error, res);
+      next(error);
     }
   }
 
-  async tableByVisualization(req: Request, res: Response) {
+  async tableByVisualization(req: Request, res: Response, next) {
     try{
       const city = await new CityRepository().findById(Number(req.query.city));
       const factory = await new ApiFactory().load();
@@ -143,11 +143,11 @@ class DatasetController
 
       res.send(await presentVisualizationTable(visualization, city));
     } catch (error) {
-      DatasetController.handleErrors(error, res);
+      next(error);
     }
   }
 
-  async visualizations(req: Request, res: Response) {
+  async visualizations(req: Request, res: Response, next) {
     try {
       const city = await new CityRepository().findByAlias(String(req.query.state), String(req.query.city));
       const factory = await new ApiFactory().load();
@@ -164,15 +164,8 @@ class DatasetController
       
       res.send(await Promise.all(promises));
     } catch (error) {
-      DatasetController.handleErrors(error, res);
+      next(error);
     }
-  }
-
-  private static handleErrors(error, response) {
-    if(error instanceof BaseError)
-      error.renderHttpResponse(response);
-    else
-      throw error;
   }
 }
 

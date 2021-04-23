@@ -5,6 +5,10 @@ dotenv();
 
 const port = process.env.PORT || 3000;
 
+process.on('unhandledRejection', (reason) => {
+  throw reason;
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

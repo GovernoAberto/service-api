@@ -1,6 +1,5 @@
 import { City } from "@entities/City";
-import { State } from "@entities/State";
-import CityNotFound from "@exceptions/Exceptions";
+import { CityNotFound } from "@exceptions/Exceptions";
 import CityModel from "@infra/database/mongodb/CityModel";
 
 export class CityRepository{
@@ -19,6 +18,9 @@ export class CityRepository{
 
   async findByState(alias:string) : Promise<City[]> {
     const cities = await this.mongoDB.find({ "state.alias": alias }).sort({ "name" : 1 }).exec();
+
+    if(cities.length == 0)
+      throw new CityNotFound();
 
     return cities;
   }
