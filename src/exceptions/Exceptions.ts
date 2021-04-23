@@ -41,9 +41,21 @@ class VisualizationNotFound extends BaseError {
   }
 }
 
+class DatasetNotFound extends BaseError {
+  code = 5;
+  httpCode = 500;
+  message = "O conjunto não foi encontrado";
+  data;
+
+  constructor() {
+    super();
+  }
+}
+
 export { 
   CityNotFound,
   QueryError,
   ConnectionApiError,
-  VisualizationNotFound
+  VisualizationNotFound,
+  DatasetNotFound
 };

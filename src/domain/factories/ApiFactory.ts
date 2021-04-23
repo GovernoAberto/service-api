@@ -1,9 +1,9 @@
 import { Dataset } from "@entities/Dataset";
 import { CubeJsQuery } from "@entities/query/CubeJsQuery";
 import { DatasetQuery } from "@entities/query/DatasetQuery";
-import { Query } from "mongoose";
 import { CubeJsApi } from "./CubeJsApi";
 import { DatasetApi } from "./DatasetApi";
+import { DatasetNotFound } from "@exceptions/Exceptions";
 
 export class ApiFactory{
 
@@ -25,7 +25,12 @@ export class ApiFactory{
   getDataset(name) : Dataset {
     const datasets = this.getDatasets();
     
-    return datasets.find(dataset => dataset.name == name);
+    const dataset = datasets.find(dataset => dataset.name == name);
+    
+    if(!dataset)
+      throw new DatasetNotFound();
+
+    return dataset;
   }
 
   getDatasets() : Dataset[] {
