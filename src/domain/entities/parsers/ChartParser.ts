@@ -20,7 +20,7 @@ export class ChartParser extends VisualizationParser {
       return new LineChartParser(this.config).parse(data, visualization);
     }
 
-    if(this.config.type == 'pie-chart') {
+    if(this.config.type == 'pie-chart' || this.config.type == 'money-pie-chart') {
       return new PieChartParser(this.config).parse(data, visualization);
     }
 
