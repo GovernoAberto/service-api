@@ -15,7 +15,7 @@ export default function routeEvents(req, res, next) {
     url: 'https://ipinfo.io/' + ip,
     params: { token: "c06c6b70576982" }
   }).then(result => {
-    repository.add({ ip: ip, url: req.originalUrl, client: result.data });
+    repository.add({ ip: ip, url: req.originalUrl, region: result.data.region, city: result.data.city, client: result.data });
   }).catch(error => { 
     repository.add({ ip: ip, url: req.originalUrl, client: null });
   });

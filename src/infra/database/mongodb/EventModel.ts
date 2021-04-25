@@ -5,6 +5,8 @@ export interface EventInterface extends Document {
   ip: string, 
   url: string,
   date: string,
+  region: string,
+  city: string,
   client: any
 }
 
@@ -13,6 +15,8 @@ const EventSchema: Schema = new Schema({
   ip: String,
   url: String,
   date: String,
+  region: String,
+  city: String,
   client: {
     type: Object
   },
