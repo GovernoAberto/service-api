@@ -1,6 +1,7 @@
 import { Router } from "express";
 import datasetController from './controllers/DatasetController';
 import cityController from './controllers/CityController';
+import feedbackController from './controllers/FeedbackController';
 import routeEvents from "./routeEvents";
 
 const router = Router();
@@ -22,5 +23,7 @@ router.get('/visualization/:alias', routeEvents, datasetController.visualization
 router.get('/visualization/:alias/table', datasetController.tableByVisualization);
 router.get('/visualization/:alias/download/:format', routeEvents, datasetController.downloadVisualizationTable);
 router.get('/visualizations', routeEvents, datasetController.visualizations);
+router.get('/like/:visualization', routeEvents, feedbackController.like);
+router.get('/like/:visualization/verify', routeEvents, feedbackController.hasLike);
 
 export { router };
