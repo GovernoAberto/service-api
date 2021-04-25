@@ -37,6 +37,15 @@ export class CityRepository{
     return city;
   }
 
+  async findByStateAndName(stateAlias: string, cityName:string) : Promise<City> {
+    const city = await this.mongoDB.findOne({ 
+      "name": cityName,
+      "state.alias": stateAlias
+    });
+
+    return city;
+  }
+
   async findById(id: number) : Promise<City> {
     if(!id) { throw new CityNotFound(); }
 

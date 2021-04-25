@@ -20,4 +20,10 @@ export class StateRepository{
 
     return state;
   }
+
+  async findByName(name:string) : Promise<State> {
+    const state = await this.mongoDB.findOne({ name: name });
+
+    return state;
+  }
 }

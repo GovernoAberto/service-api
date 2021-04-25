@@ -12,6 +12,7 @@ router.get('/', (req, res) => {
 router.get('/states', cityController.states);
 router.get('/state/:alias/cities', cityController.cities);
 router.get('/city-info/:state/:city', cityController.cityInfo);
+router.get('/city/detect', cityController.detectCity);
 router.get('/dataset/add', datasetController.add);
 router.get('/dataset/:name', routeEvents, datasetController.dataset);
 router.get('/dataset/:name/table', datasetController.datasetTable);
