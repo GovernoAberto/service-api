@@ -1,4 +1,5 @@
-import LikeModel, { LikeInterface } from "@infra/database/mongodb/LikeModel";
+import LikeModel from "@infra/database/mongodb/LikeModel";
+import { FeedbackError } from "@exceptions/Exceptions";
 
 export class LikeRepository{
 
@@ -14,12 +15,18 @@ export class LikeRepository{
   }
 
   async like(like: any) : Promise<boolean> {
-    const hasLike = await this.hasLike(like.ip, like.visualization);
-    if(!hasLike) {
-      await this.mongoDB.create(like);
-      return true;
+    try {
+
+      const hasLike = await this.hasLike(like.ip, like.visualization);
+      if(!hasLike) {
+        await this.mongoDB.create(like);
+        return true;
+      }
+
+      return false;
+      
+    } catch (error) {
+      throw new FeedbackError();
     }
-    
-    return false;
   }
 }

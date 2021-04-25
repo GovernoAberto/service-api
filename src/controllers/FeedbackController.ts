@@ -9,13 +9,22 @@ class FeedbackController
       const ip = String(req.headers['x-forwarded-for'] || req.ip);
       const likeRepository = new LikeRepository();
 
+      if(req.params.visualization == "undefined") {
+        res.send(false);
+        return;
+      }
+
       new IpService().detectInfo(ip).then(ipInfo => {
         likeRepository.like({
           visualization: req.params.visualization,
           city: (req.query.city != undefined) ? Number(req.query.city) : null,
           ip: String(req.headers['x-forwarded-for'] || req.ip),
           info: ipInfo
+        }).catch(e => {
+          console.log(e.message);
         });
+      }).catch(e => {
+        console.log(e.message);
       });
 
       res.send(true);

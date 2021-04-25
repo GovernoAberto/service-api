@@ -52,10 +52,21 @@ class DatasetNotFound extends BaseError {
   }
 }
 
+class FeedbackError extends BaseError {
+  code = 5;
+  httpCode = 500;
+  message = "Erro ao gerar feedback";
+
+  constructor() {
+    super();
+  }
+}
+
 export { 
   CityNotFound,
   QueryError,
   ConnectionApiError,
   VisualizationNotFound,
-  DatasetNotFound
+  DatasetNotFound,
+  FeedbackError
 };

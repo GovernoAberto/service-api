@@ -24,6 +24,6 @@ router.get('/visualization/:alias/table', datasetController.tableByVisualization
 router.get('/visualization/:alias/download/:format', routeEvents, datasetController.downloadVisualizationTable);
 router.get('/visualizations', routeEvents, datasetController.visualizations);
 router.get('/like/:visualization', routeEvents, feedbackController.like);
-router.get('/like/:visualization/verify', routeEvents, feedbackController.hasLike);
+router.get('/like/:visualization/verify', feedbackController.hasLike);
 
 export { router };
