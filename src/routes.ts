@@ -9,14 +9,14 @@ router.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-router.get('/states', routeEvents, cityController.states);
-router.get('/state/:alias/cities', routeEvents, cityController.cities);
-router.get('/city-info/:state/:city', routeEvents, cityController.cityInfo);
-router.get('/dataset/add', routeEvents, datasetController.add);
+router.get('/states', cityController.states);
+router.get('/state/:alias/cities', cityController.cities);
+router.get('/city-info/:state/:city', cityController.cityInfo);
+router.get('/dataset/add', datasetController.add);
 router.get('/dataset/:name', routeEvents, datasetController.dataset);
 router.get('/dataset/:name/table', routeEvents, datasetController.datasetTable);
 router.get('/dataset/:name/download/:format', routeEvents, datasetController.downloadDataset);
-router.get('/categories', routeEvents, datasetController.categories);
+router.get('/categories', datasetController.categories);
 router.get('/visualization/:alias', routeEvents, datasetController.visualization);
 router.get('/visualization/:alias/table', routeEvents, datasetController.tableByVisualization);
 router.get('/visualization/:alias/download/:format', routeEvents, datasetController.downloadVisualizationTable);
