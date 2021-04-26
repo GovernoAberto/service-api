@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { IpService } from '@services/IpService';
 import { LikeRepository } from '@repositories/LikeRepository';
+import { formatISO } from 'date-fns';
 
 class FeedbackController
 {
@@ -19,6 +20,7 @@ class FeedbackController
           visualization: req.params.visualization,
           city: (req.query.city != undefined) ? Number(req.query.city) : null,
           ip: String(req.headers['x-forwarded-for'] || req.ip),
+          date: formatISO(new Date()),
           info: ipInfo
         }).catch(e => {
           console.log(e.message);

@@ -4,6 +4,7 @@ export interface EventInterface extends Document {
   id: number, 
   ip: string, 
   url: string,
+  params: any,
   date: string,
   region: string,
   city: string,
@@ -14,6 +15,9 @@ const EventSchema: Schema = new Schema({
   id: Number,
   ip: String,
   url: String,
+  params: {
+    type: Object
+  },
   date: String,
   region: String,
   city: String,

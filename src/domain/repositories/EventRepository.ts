@@ -1,4 +1,5 @@
 import EventModel from "@infra/database/mongodb/EventModel";
+import { formatISO } from "date-fns";
 
 export class EventRepository{
 
@@ -8,7 +9,7 @@ export class EventRepository{
     this.mongoDB = EventModel;
   }
 
-  async add(event: { ip: string, url: string, region?: string, city?: string, client?: any }) : Promise<any> {
-    return await this.mongoDB.create({ ...event, date: new Date().toISOString() });
+  async add(event: { ip: string, url: string, params: any, region?: string, city?: string, client?: any }) : Promise<any> {
+    return await this.mongoDB.create({ ...event, date: formatISO(new Date()) });
   }
 }
