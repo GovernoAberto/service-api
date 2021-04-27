@@ -25,5 +25,6 @@ router.get('/visualization/:alias/download/:format', routeEvents, datasetControl
 router.get('/visualizations', routeEvents, datasetController.visualizations);
 router.get('/like/:visualization', routeEvents, feedbackController.like);
 router.get('/like/:visualization/verify', feedbackController.hasLike);
+router.post('/feedback/:visualization', feedbackController.feedback);
 
 export { router };

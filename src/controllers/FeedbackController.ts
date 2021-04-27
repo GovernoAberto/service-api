@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IpService } from '@services/IpService';
 import { LikeRepository } from '@repositories/LikeRepository';
 import { formatISO } from 'date-fns';
+import { FeedbackRepository } from '@repositories/FeedbackRepository';
 
 class FeedbackController
 {
@@ -42,6 +43,23 @@ class FeedbackController
       const ip = String(req.headers['x-forwarded-for'] || req.ip);
 
       res.send(await likeRepository.hasLike(ip, req.params.visualization));
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async feedback(req: Request, res: Response, next) {
+    try {
+      if(req.params.visualization == "undefined") {
+        res.send(false);
+        return;
+      }
+
+      const repository = new FeedbackRepository();
+      repository.add(req.params.visualization, req.body.comment, req.body.contact);
+
+      res.send(true);
 
     } catch (error) {
       next(error);
