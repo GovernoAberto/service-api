@@ -2,6 +2,13 @@ import { EventRepository } from "@repositories/EventRepository";
 import { IpService } from "@services/IpService";
 
 export default function routeEvents(req, res, next) {
+  const ignoredRoutes = [
+    '/visualization/gentilico', '/visualization/prefeito',
+    '/visualization/populacao', '/visualization/area-territorial'
+  ];
+  if(ignoredRoutes.includes(req.path))
+    return;
+
   const ip = req.headers['x-forwarded-for'] || req.ip;
   const ignoredIps = process.env.IGNORED_IPS.split(",");
   
