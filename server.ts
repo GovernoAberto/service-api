@@ -9,6 +9,11 @@ process.on('unhandledRejection', (reason) => {
   throw reason;
 });
 
+process.on('uncaughtException', (error) => {
+  console.log(error);
+  process.exit(1);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

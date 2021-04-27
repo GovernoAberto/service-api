@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsnd -r tsconfig-paths/register --transpile-only --respawn --ignore-watch node_modules server.ts",
     "debug": "tsnd --inspect --respawn server.ts",
-    "build": "tsc --project ./ && tscpaths -p tsconfig.json -s ./ -o ./build",
-    "typeorm": "tsnd ./node_modules/typeorm/cli.js"
+    "build": "tsc --project ./ && tscpaths -p tsconfig.json -s ./ -o ./build"
   },
   "author": "",
   "license": "ISC",

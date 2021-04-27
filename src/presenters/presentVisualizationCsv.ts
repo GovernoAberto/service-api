@@ -7,6 +7,6 @@ export default async function (visualization: Visualization, city: City, respons
   response.set('Content-disposition', 'attachment; filename=' + visualization.title + ' - ' +  city.name + ".csv");
   response.set('Content-Type', 'text/csv');
 
-  const parser = new CsvParser({});
+  const parser = new CsvParser();
   return parser.parse(await visualization.generateData(city));
 }

@@ -7,6 +7,6 @@ export default async function (visualization: Visualization, city: City, respons
   response.set('Content-disposition', 'attachment; filename=' + visualization.title + ' - ' +  city.name + ".json");
   response.set('Content-Type', 'text/json');
 
-  const parser = new JsonParser({});
+  const parser = new JsonParser();
   return parser.parse(await visualization.generateData(city));
 }
