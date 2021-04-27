@@ -6,8 +6,10 @@ export default function routeEvents(req, res, next) {
     '/visualization/gentilico', '/visualization/prefeito',
     '/visualization/populacao', '/visualization/area-territorial'
   ];
-  if(ignoredRoutes.includes(req.path))
+  if(ignoredRoutes.includes(req.path)) {
+    next();
     return;
+  }
 
   const ip = req.headers['x-forwarded-for'] || req.ip;
   const ignoredIps = process.env.IGNORED_IPS.split(",");
