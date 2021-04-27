@@ -57,7 +57,7 @@ class FeedbackController
       }
 
       const repository = new FeedbackRepository();
-      repository.add(req.params.visualization, req.body.comment, req.body.contact);
+      repository.add(req.params.visualization, req.params.city, req.body.comment, req.body.contact);
 
       res.send(true);
 

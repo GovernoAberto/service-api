@@ -10,10 +10,11 @@ export class FeedbackRepository{
     this.mongoDB = FeedbackModel;
   }
 
-  async add(visualization: string, comment: string, contact: string) : Promise<boolean> {
+  async add(visualization: string, city: string, comment: string, contact: string) : Promise<boolean> {
     try {
       await this.mongoDB.create({
         visualization: visualization,
+        city: String(city),
         comment: comment,
         contact: contact,
         date: formatISO(new Date())

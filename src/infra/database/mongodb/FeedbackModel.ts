@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface FeedbackInterface extends Document {
   visualization: string,
+  city: string,
   date: string,
   comment: string,
   contact: string
@@ -9,6 +10,7 @@ export interface FeedbackInterface extends Document {
 
 const FeedbackSchema: Schema = new Schema({
   visualization: String,
+  city: String,
   date: String,
   comment: String,
   contact: String
