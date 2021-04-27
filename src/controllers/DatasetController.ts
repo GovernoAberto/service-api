@@ -6,7 +6,6 @@ import { VisualizationType } from '@entities/Visualization';
 import { TableParser } from '@entities/parsers/TableParser';
 import { CsvParser } from '@entities/parsers/CsvParser';
 import { JsonParser } from '@entities/parsers/JsonParser';
-import BaseError from '@exceptions/BaseError';
 import presentVisualization from '@presenters/presentVisualization';
 import presentVisualizationTable from '@presenters/presentVisualizationTable';
 import presentVisualizationCsv from '@presenters/presentVisualizationCsv';
@@ -26,7 +25,7 @@ class DatasetController
       { label: 'Governo', btn_class: 'btn-secondary', btn_alt_class: 'btn-outline-secondary', icon: 'building' },
       { label: 'Saúde', btn_class: 'btn-primary', btn_alt_class: 'btn-outline-primary', icon: 'ambulance' },
       { label: 'Economia', btn_class: 'btn-warning', btn_alt_class: 'btn-outline-warning', icon: 'dollar-sign' },
-      { label: 'Educação', btn_class: 'btn-success', btn_alt_class: 'btn-outline-success', icon: 'book' },
+      // { label: 'Educação', btn_class: 'btn-success', btn_alt_class: 'btn-outline-success', icon: 'book' },
       { label: 'Transporte', btn_class: 'btn-danger', btn_alt_class: 'btn-outline-danger', icon: 'bus' }
     ]);
   }
